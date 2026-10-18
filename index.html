@@ -4,199 +4,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InviteCraft - Invitation Maker</title>
+<meta name="theme-color" content="#100d18">
+<title>InviteCraft | Premium Invitation Studio</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+ --bg:#100d18;--panel:#191522;--line:#34293e;
+ --gold:#e9ca8a;--pink:#f0b8d5;--muted:#b8acbf;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#100f19;color:#fff}
-header{text-align:center;padding:24px 12px;background:linear-gradient(135deg,#47245f,#a94d78)}
-header h1{margin:0;font-size:30px}
-header p{margin:8px 0 0;color:#f6e7ff}
-main{max-width:1000px;margin:25px auto;padding:0 15px}
-h2{text-align:center}
-.muted{text-align:center;color:#c4bbd2}
-.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
-.event{min-height:130px;border:1px solid #55445f;background:#201a2c;color:white;border-radius:16px;padding:20px 10px;font-size:19px;font-weight:bold;cursor:pointer;transition:.2s}
-.event:hover{transform:translateY(-3px);background:#392446;border-color:#f0a9dc}
-.emoji{display:block;font-size:40px;margin-bottom:12px}
-.panel{background:#1d1a29;border:1px solid #393148;border-radius:16px;padding:18px;margin:16px 0}
-.editor{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-label{display:block;font-size:13px;color:#ddd0e8;margin:13px 0 6px}
-input,textarea{width:100%;padding:11px;border:1px solid #51445d;background:#11101a;color:white;border-radius:8px;font:inherit}
-textarea{resize:vertical;min-height:70px}
-button{border:0;border-radius:9px;padding:12px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#efb4e2;color:#28132b}
-.secondary{background:#393047;color:#fff}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-#card{min-height:430px;padding:14px;background:linear-gradient(145deg,#401c4f,#a34777);border:5px double #f8dfad;display:flex;align-items:stretch;text-align:center;color:#fff8e9;overflow-wrap:anywhere}
-.frame{width:100%;border:1px solid #f8dfad99;padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#ornament{font-size:27px}
-#pEvent{font-size:13px;letter-spacing:4px;text-transform:uppercase}
-#pNames{font: bold 32px Georgia,serif;margin:17px 0;line-height:1.25}
-#pMessage{font:17px Georgia,serif;white-space:pre-line;line-height:1.6}
-#pDate,#pTime,#pVenue,#pExtra{font-size:14px;white-space:pre-line;line-height:1.7}
-#pPhoto{max-width:100%;max-height:100px;object-fit:contain;margin:10px}
-.haldi{background:linear-gradient(145deg,#70400e,#e4a92e)!important}
-.marriage{background:linear-gradient(145deg,#650f27,#b52d46)!important}
-.engagement{background:linear-gradient(145deg,#1e4244,#8baf9b)!important}
-.birthday{background:linear-gradient(145deg,#401c4f,#a34777)!important}
+body{margin:0;background:var(--bg);color:#fff9f1;font-family:'DM Sans',Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.topbar{height:68px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;background:#100d18}
+.brand{font-family:'Cormorant Garamond',serif;font-size:29px;font-weight:700;letter-spacing:1px}
+.brand span{color:var(--gold)}
+.top-tag{font-size:10px;letter-spacing:2px;color:var(--gold);border:1px solid #a98c5a66;border-radius:30px;padding:9px 13px}
+.hero{text-align:center;padding:65px 18px 35px;background:radial-gradient(ellipse at 50% 0%,#57304765,transparent 65%)}
+.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,7vw,76px);font-weight:500;line-height:1.03;margin:18px 0}
+.hero h1 em{color:var(--gold);font-weight:400}
+.hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:14px;line-height:1.9}
+.wrap{width:min(1120px,92%);margin:auto}
+.section-heading{text-align:center;margin:25px 0 25px}
+.section-heading h2{font-family:'Cormorant Garamond',serif;font-size:35px;font-weight:500;margin:0 0 7px}
+.section-heading p{color:var(--muted);font-size:12px}
+.events{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:60px}
+.event-card{position:relative;overflow:hidden;border:1px solid #514051;background:#1a1521;color:white;border-radius:14px;padding:0;text-align:left;transition:transform .25s,border-color .25s}
+.event-card:hover{transform:translateY(-7px);border-color:var(--gold)}
+.event-art{height:210px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.event-art:before,.event-art:after{content:"";position:absolute;border:1px solid #fff6;border-radius:50%;width:170px;height:170px}
+.event-art:after{width:140px;height:140px}
+.event-art .symbol{font-size:53px;z-index:1;filter:drop-shadow(0 5px 12px #0005)}
+.event-art small{font-size:9px;letter-spacing:4px;z-index:1}
+.art-birthday{background:radial-gradient(circle,#b35c86,#4c203c 80%)}
+.art-haldi{background:radial-gradient(circle,#e4b64b,#7a4018 80%)}
+.art-marriage{background:radial-gradient(circle,#ba4757,#4c1429 80%)}
+.art-engagement{background:radial-gradient(circle,#82a99b,#244a46 80%)}
+.event-info{padding:17px}
+.event-info h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin:0 0 6px}
+.event-info p{color:var(--muted);font-size:11px;margin:0 0 15px}
+.event-info span{color:var(--gold);font-size:11px;letter-spacing:1px}
+#studio{padding:24px 0 65px}
+.studio-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}
+.studio-head h2{font-family:'Cormorant Garamond',serif;font-size:35px;font-weight:500;margin:0}
+.studio-head p{color:var(--muted);font-size:12px;margin:6px 0}
+.btn{border:1px solid #ffffff1b;border-radius:9px;padding:12px 15px;font-size:12px;font-weight:700;transition:.2s}
+.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(110deg,#f4dfad,#d6ae65);color:#21170f;border:0}
+.btn-dark{background:#282130;color:white}
+.btn-outline{background:transparent;border-color:#92764e;color:var(--gold)}
+.workspace{display:grid;grid-template-columns:minmax(270px,.8fr) minmax(0,1.2fr);gap:20px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px;min-width:0}
+.panel h3{font-size:14px;letter-spacing:.4px;margin:0 0 20px}
+.label{display:block;font-size:11px;color:#d5c7d9;margin:15px 0 7px}
+input,textarea{width:100%;border:1px solid #42364a;border-radius:8px;background:#100d18;color:#fff8f1;padding:12px;outline:none}
+input:focus,textarea:focus{border-color:#d6b778}
+textarea{resize:vertical;min-height:75px}
+.helper{font-size:10px;color:#a89aae;line-height:1.7}
+.theme-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.swatch{height:40px;border:2px solid transparent;border-radius:8px}
+.swatch.active{outline:2px solid var(--gold);outline-offset:2px}
+.sw1{background:linear-gradient(135deg,#4c203c,#c26b91)}
+.sw2{background:linear-gradient(135deg,#7a4018,#e4b64b)}
+.sw3{background:linear-gradient(135deg,#4c1429,#ba4757)}
+.sw4{background:linear-gradient(135deg,#244a46,#82a99b)}
+.preview-panel{padding:20px}
+.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}
+.preview-head h3{margin:0}
+.live{color:#a7d6a8;font-size:10px}
+.stage{background:#100d18;border:1px solid #30273a;border-radius:11px;padding:18px;display:flex;justify-content:center;align-items:center;min-height:470px}
+#card{--c1:#4c203c;--c2:#c26b91;--ink:#fff5e8;--accent:#e9ca8a;background:linear-gradient(145deg,var(--c1),var(--c2));color:var(--ink);width:100%;max-width:390px;min-height:430px;padding:13px;text-align:center;box-shadow:0 15px 45px #0005;overflow-wrap:anywhere}
+#card.theme-haldi{--c1:#7a4018;--c2:#e4b64b;--ink:#fff8d8;--accent:#fff0a8}
+#card.theme-marriage{--c1:#4c1429;--c2:#ba4757;--ink:#fff0e6;--accent:#f6d69a}
+#card.theme-engagement{--c1:#244a46;--c2:#82a99b;--ink:#fffaf0;--accent:#f4dfad}
+.card-border{height:100%;min-height:404px;border:1px solid var(--accent);outline:1px solid #fff5;outline-offset:-6px;padding:25px 13px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.card-symbol{font-size:27px;color:var(--accent);margin-bottom:15px}
+.card-kicker{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--accent)}
+.card-rule{width:55px;border-top:1px solid var(--accent);margin:15px auto}
+#pNames{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:39px;line-height:1.08;margin:15px 0}
+#pMessage{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.5;white-space:pre-line;margin:4px 0 14px}
+.card-details{font-size:11px;line-height:1.9;white-space:pre-line}
+#pExtra{margin-top:7px}
+.card-bottom{font-size:10px;letter-spacing:2px;color:var(--accent);margin-top:19px}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.action-grid .btn{min-height:45px}
+#shareResult{margin-top:13px;padding:12px;background:#100d18;border:1px solid #42364a;border-radius:8px;display:none}
+#shareLink{overflow-wrap:anywhere;color:#f1d9a9;font-size:11px;line-height:1.7}
+#copyLink{margin-top:10px;width:100%}
 .hidden{display:none!important}
-.small{font-size:12px;color:#c4bbd2;line-height:1.6}
-#shareUrl{margin-top:12px;overflow-wrap:anywhere;color:#f4c5f0;font-size:13px}
-footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
-@media(max-width:700px){.editor{grid-template-columns:1fr}.events{gap:10px}.event{font-size:16px;min-height:115px}#card{min-height:390px}#pNames{font-size:28px}}
+footer{text-align:center;padding:30px 15px;border-top:1px solid #ffffff12;color:#9e92a8;font-size:11px;letter-spacing:1px}
+@media(max-width:850px){.events{grid-template-columns:repeat(2,minmax(0,1fr))}.event-art{height:170px}.workspace{grid-template-columns:1fr}.stage{min-height:440px}}
+@media(max-width:480px){.hero{padding-top:45px}.topbar{padding:0 4%}.brand{font-size:25px}.top-tag{font-size:8px}.events{gap:10px}.event-art{height:145px}.event-info{padding:12px}.event-info h3{font-size:21px}.panel{padding:15px}.studio-head{align-items:flex-start}.studio-head h2{font-size:29px}.stage{padding:9px;min-height:420px}#card{min-height:405px}.card-border{min-height:379px;padding:22px 10px}#pNames{font-size:34px}}
 </style>
 </head>
 <body>
-<header>
-<h1>✨ InviteCraft</h1>
-<p>Create beautiful invitations and share them instantly</p>
+<header class="topbar">
+<div class="brand">Invite<span>Craft</span> ✦</div>
+<div class="top-tag">THE INVITATION STUDIO</div>
 </header>
-<main>
+
 <section id="home">
-<h2>Choose Your Invitation</h2>
-<p class="muted">Select an event to start designing your card.</p>
+<div class="hero">
+<div class="eyebrow">A little magic for your moments</div>
+<h1>Every occasion deserves<br><em>a beautiful invitation.</em></h1>
+<p>Create a personalized invitation in minutes. Choose your occasion, add your details, and share your special moment with everyone.</p>
+</div>
+<div class="wrap">
+<div class="section-heading">
+<h2>Choose your occasion</h2>
+<p>Four celebrations. Beautiful designs. Your personal touch.</p>
+</div>
 <div class="events">
-<button class="event" onclick="chooseEvent('birthday')"><span class="emoji">🎂</span>BIRTHDAY</button>
-<button class="event" onclick="chooseEvent('haldi')"><span class="emoji">🌼</span>HALDI</button>
-<button class="event" onclick="chooseEvent('marriage')"><span class="emoji">💍</span>MARRIAGE</button>
-<button class="event" onclick="chooseEvent('engagement')"><span class="emoji">💖</span>ENGAGEMENT</button>
+<button class="event-card" onclick="chooseEvent('birthday')">
+<div class="event-art art-birthday"><span class="symbol">🎂</span><small>MAKE A WISH</small></div>
+<div class="event-info"><h3>Birthday</h3><p>Celebrate another beautiful year.</p><span>CREATE INVITATION ↗</span></div>
+</button>
+<button class="event-card" onclick="chooseEvent('haldi')">
+<div class="event-art art-haldi"><span class="symbol">🌼</span><small>THE HALDI CEREMONY</small></div>
+<div class="event-info"><h3>Haldi</h3><p>Sunshine, flowers and traditions.</p><span>CREATE INVITATION ↗</span></div>
+</button>
+<button class="event-card" onclick="chooseEvent('marriage')">
+<div class="event-art art-marriage"><span class="symbol">💍</span><small>FOREVER BEGINS</small></div>
+<div class="event-info"><h3>Marriage</h3><p>Invite everyone to your big day.</p><span>CREATE INVITATION ↗</span></div>
+</button>
+<button class="event-card" onclick="chooseEvent('engagement')">
+<div class="event-art art-engagement"><span class="symbol">♥</span><small>A PROMISE OF FOREVER</small></div>
+<div class="event-info"><h3>Engagement</h3><p>A new chapter starts here.</p><span>CREATE INVITATION ↗</span></div>
+</button>
+</div>
 </div>
 </section>
 
-<section id="editorSection" class="hidden">
-<div class="actions">
-<button class="secondary" onclick="goHome()">← Change Event</button>
+<main id="studio" class="wrap hidden">
+<div class="studio-head">
+<div><div class="eyebrow">YOUR PERSONAL DESIGN</div><h2>Invitation Studio</h2><p>Edit the details. Your design is ready.</p></div>
+<button class="btn btn-dark" onclick="backHome()">← All events</button>
 </div>
-<h2>Edit Your Invitation</h2>
-<p class="muted">Change your details and watch your card update.</p>
-<div class="editor">
+<div class="workspace">
 <section class="panel">
-<h3>✏️ Your Details</h3>
-<label id="nameLabel">Names</label>
-<input id="names" placeholder="Enter name or names">
-<label>Event date</label>
+<h3>✦ Personalize your invitation</h3>
+<label class="label" id="namesLabel">Name</label>
+<input id="names" maxlength="100" placeholder="Enter name">
+<label class="label">Date</label>
 <input id="date" type="date">
-<label>Time</label>
+<label class="label">Time</label>
 <input id="time" type="time">
-<label>Venue</label>
-<input id="venue" placeholder="Enter venue or address">
-<label>Invitation message</label>
-<textarea id="message">We warmly invite you to join us for this special occasion.</textarea>
-<label>Additional details</label>
-<textarea id="extra" placeholder="Optional details"></textarea>
-<div class="actions">
-<button class="primary" onclick="downloadCard()">⬇ Download Invitation</button>
-<button class="secondary" onclick="shareInvitation()">🔗 Share Invitation</button>
+<label class="label">Venue / Address</label>
+<input id="venue" maxlength="180" placeholder="Enter venue">
+<label class="label">Invitation message</label>
+<textarea id="message" maxlength="500">We would be delighted to have you with us for this special celebration.</textarea>
+<label class="label">Additional details (optional)</label>
+<textarea id="extra" maxlength="300" placeholder="Dress code, family names, special notes..."></textarea>
+<label class="label">Choose a colour theme</label>
+<div class="theme-row">
+<button class="swatch sw1 active" aria-label="Pink theme" onclick="setTheme('birthday',this)"></button>
+<button class="swatch sw2" aria-label="Gold theme" onclick="setTheme('haldi',this)"></button>
+<button class="swatch sw3" aria-label="Red theme" onclick="setTheme('marriage',this)"></button>
+<button class="swatch sw4" aria-label="Green theme" onclick="setTheme('engagement',this)"></button>
 </div>
-<div id="shareUrl"></div>
-<p class="small">Sharing creates a link containing your invitation details. Anyone with the link can open it in a browser.</p>
+<p class="helper">Your chosen occasion sets the starting design. You can change its colours here without changing your event details.</p>
+<div class="action-grid">
+<button class="btn btn-gold" onclick="downloadCard()">↓ Download PNG</button>
+<button class="btn btn-outline" onclick="shareInvitation()">↗ Share Invitation</button>
+</div>
+<div id="shareResult">
+<div style="font-size:11px;margin-bottom:7px">YOUR INVITATION LINK</div>
+<div id="shareLink"></div>
+<button class="btn btn-gold" id="copyLink" onclick="copyInvitationLink()">Copy invitation link</button>
+<p class="helper">Anyone with this link can open your invitation in Chrome.</p>
+</div>
+<p class="helper">Your invitation details are included in the share link. Share it only with people you want to see those details.</p>
 </section>
 
-<section class="panel">
-<h3>👀 Live Preview</h3>
-<div id="card" class="birthday">
-<div class="frame">
-<div id="ornament">✦ ❀ ✦</div>
-<div id="pEvent">Birthday Celebration</div>
+<section class="panel preview-panel">
+<div class="preview-head"><h3>Live preview</h3><span class="live">● LIVE</span></div>
+<div class="stage">
+<div id="card" class="theme-birthday">
+<div class="card-border">
+<div class="card-symbol" id="pSymbol">✦ ❀ ✦</div>
+<div class="card-kicker" id="pEvent">Birthday Celebration</div>
+<div class="card-rule"></div>
 <div id="pNames">Your Name Here</div>
-<img id="pPhoto" class="hidden" alt="Invitation photo">
-<div id="pMessage">We warmly invite you to join us for this special occasion.</div>
-<p id="pDate"></p>
-<p id="pTime"></p>
-<p id="pVenue"></p>
-<p id="pExtra"></p>
-<div id="ornament">❦</div>
+<div id="pMessage">We would be delighted to have you with us for this special celebration.</div>
+<div class="card-details" id="pDate"></div>
+<div class="card-details" id="pTime"></div>
+<div class="card-details" id="pVenue"></div>
+<div class="card-details" id="pExtra"></div>
+<div class="card-bottom">WITH LOVE & JOY</div>
 </div>
 </div>
+</div>
+<p class="helper">The preview is a guide to the saved card. The PNG will be generated from the invitation design.</p>
 </section>
 </div>
-</section>
 </main>
-<footer>InviteCraft • Make every occasion special</footer>
+
+<footer>INVITECRAFT · MADE FOR YOUR MOST MEMORABLE MOMENTS</footer>
 
 <script>
-const eventInfo={
- birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's 18th Birthday",ornament:"🎂 ✦ 🎈"},
- haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"🌼 ✦ 🌼"},
- marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"❦ 💍 ❦"},
- engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"💖 ✦ 💍"}
-};
-let currentEvent="birthday";
 const $=id=>document.getElementById(id);
+const info={
+ birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's Birthday",symbol:"✦ ❀ ✦",message:"Join us for a day filled with joy, laughter and wonderful memories."},
+ haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",symbol:"❋ 🌼 ❋",message:"With love and blessings, join us for our beautiful Haldi ceremony."},
+ marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",symbol:"❦ 💍 ❦",message:"Together with our families, we invite you to celebrate the beginning of our forever."},
+ engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",symbol:"♥ ✧ ♥",message:"Join us as we celebrate love, commitment and a beautiful new beginning."}
+};
+const fields=["names","date","time","venue","message","extra"];
+let eventType="birthday";
+let shareURL="";
 
 function chooseEvent(type){
- currentEvent=eventInfo[type]?type:"birthday";
+ if(!info[type])return;
+ eventType=type;
  $("home").classList.add("hidden");
- $("editorSection").classList.remove("hidden");
- $("names").placeholder=eventInfo[currentEvent].placeholder;
- $("nameLabel").textContent=eventInfo[currentEvent].label;
- $("card").className=currentEvent;
- $("shareUrl").textContent="";
+ $("studio").classList.remove("hidden");
+ $("namesLabel").textContent=info[type].label;
+ $("names").placeholder=info[type].placeholder;
+ $("message").value=info[type].message;
+ $("names").value="";
+ $("date").value="";
+ $("time").value="";
+ $("venue").value="";
+ $("extra").value="";
+ $("shareResult").style.display="none";
+ shareURL="";
+ setTheme(type,document.querySelector(".swatch.sw"+({birthday:1,haldi:2,marriage:3,engagement:4}[type])));
  updateCard();
- window.scrollTo(0,0);
+ window.scrollTo({top:0,behavior:"smooth"});
 }
-function goHome(){
- $("editorSection").classList.add("hidden");
+function backHome(){
+ $("studio").classList.add("hidden");
  $("home").classList.remove("hidden");
- window.scrollTo(0,0);
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function setTheme(type,button){
+ if(!info[type])return;
+ $("card").className="theme-"+type;
+ document.querySelectorAll(".swatch").forEach(b=>b.classList.remove("active"));
+ if(button)button.classList.add("active");
 }
 function updateCard(){
- const info=eventInfo[currentEvent];
- $("card").className=currentEvent;
- $("pEvent").textContent=info.title;
- $("ornament").textContent=info.ornament;
+ $("pEvent").textContent=info[eventType].title;
+ $("pSymbol").textContent=info[eventType].symbol;
  $("pNames").textContent=$("names").value.trim()||"Your Name Here";
- $("pMessage").textContent=$("message").value;
- $("pDate").textContent=$("date").value? "📅 "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
- $("pTime").textContent=$("time").value?"🕒 "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
- $("pVenue").textContent=$("venue").value.trim()?"📍 "+$("venue").value.trim():"";
+ $("pMessage").textContent=$("message").value.trim()||"You are warmly invited.";
+ $("pDate").textContent=$("date").value?"✦ "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
+ $("pTime").textContent=$("time").value?"✦ "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
+ $("pVenue").textContent=$("venue").value.trim()?"✦ "+$("venue").value.trim():"";
  $("pExtra").textContent=$("extra").value.trim();
 }
-["names","date","time","venue","message","extra"].forEach(id=>$(id).addEventListener("input",updateCard));
-
-function getInvitation(){
- return {
- event:currentEvent,
- names:$("names").value,
- date:$("date").value,
- time:$("time").value,
- venue:$("venue").value,
- message:$("message").value,
- extra:$("extra").value
- };
-}
-function applyInvitation(data){
- if(!eventInfo[data.event])return;
- chooseEvent(data.event);
- ["names","date","time","venue","message","extra"].forEach(id=>{
-  if(typeof data[id]==="string")$(id).value=data[id];
- });
+fields.forEach(id=>$(id).addEventListener("input",()=>{
  updateCard();
+ $("shareResult").style.display="none";
+ shareURL="";
+}));
+
+function invitationData(){
+ const data={event:eventType};
+ fields.forEach(id=>data[id]=$(id).value);
+ return data;
+}
+function encodeData(data){
+ const bytes=new TextEncoder().encode(JSON.stringify(data));
+ let binary="";
+ bytes.forEach(b=>binary+=String.fromCharCode(b));
+ return btoa(binary).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function decodeData(encoded){
+ encoded=encoded.replace(/-/g,"+").replace(/_/g,"/");
+ while(encoded.length%4)encoded+="=";
+ const binary=atob(encoded);
+ const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));
+ return JSON.parse(new TextDecoder().decode(bytes));
 }
 function shareInvitation(){
  updateCard();
- const data=getInvitation();
- const url=new URL(window.location.href);
- url.search="";
- url.hash="invite="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
- const link=url.href;
- $("shareUrl").textContent=link;
+ const base=window.location.href.split("#")[0].split("?")[0];
+ shareURL=base+"#invite="+encodeData(invitationData());
+ $("shareLink").textContent=shareURL;
+ $("shareResult").style.display="block";
  if(navigator.share){
-  navigator.share({title:"My Invitation",text:"You're invited! Open this invitation:",url:link}).catch(()=>{});
- }else if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(link).then(()=>alert("Invitation link copied! Share it with anyone.")).catch(()=>prompt("Copy your invitation link:",link));
+  navigator.share({title:"My "+info[eventType].title,text:"You are invited! Open this invitation:",url:shareURL})
+   .catch(()=>copyInvitationLink());
  }else{
-  prompt("Copy your invitation link:",link);
+  copyInvitationLink();
  }
 }
-function loadSharedInvitation(){
- const hash=window.location.hash;
- if(!hash.startsWith("#invite="))return;
+async function copyInvitationLink(){
+ if(!shareURL)return;
  try{
-  const data=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hash.slice(8))))));
-  if(eventInfo[data.event])applyInvitation(data);
+  if(navigator.clipboard&&window.isSecureContext){
+   await navigator.clipboard.writeText(shareURL);
+   $("copyLink").textContent="✓ Link copied!";
+   return;
+  }
+ }catch(e){}
+ const area=document.createElement("textarea");
+ area.value=shareURL;
+ area.style.position="fixed";
+ area.style.opacity="0";
+ document.body.appendChild(area);
+ area.select();
+ let copied=false;
+ try{copied=document.execCommand("copy")}catch(e){}
+ area.remove();
+ $("copyLink").textContent=copied?"✓ Link copied!":"Select and copy the link above";
+ if(!copied)prompt("Copy your invitation link:",shareURL);
+}
+function loadInvitation(){
+ if(!location.hash.startsWith("#invite="))return;
+ try{
+  const data=decodeData(location.hash.slice(8));
+  if(!info[data.event])throw new Error("Invalid event");
+  eventType=data.event;
+  $("home").classList.add("hidden");
+  $("studio").classList.remove("hidden");
+  $("namesLabel").textContent=info[eventType].label;
+  $("names").placeholder=info[eventType].placeholder;
+  fields.forEach(id=>$(id).value=typeof data[id]==="string"?data[id]:"");
+  $("card").className="theme-"+eventType;
+  updateCard();
+  window.scrollTo(0,0);
  }catch(e){
-  alert("This invitation link is invalid.");
+  alert("This invitation link could not be opened. Please check the link.");
  }
 }
 function downloadCard(){
@@ -205,1350 +337,25 @@ function downloadCard(){
   const s=document.createElement("script");
   s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
   s.onload=downloadCard;
-  s.onerror=()=>alert("Unable to load the image tool. Please check your internet connection.");
+  s.onerror=()=>alert("The download tool could not load. Please check your internet connection.");
   document.head.appendChild(s);
   return;
  }
- html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true}).then(canvas=>{
+ const button=document.querySelector(".action-grid .btn-gold");
+ button.disabled=true;
+ button.textContent="Preparing...";
+ html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true,logging:false}).then(canvas=>{
   const a=document.createElement("a");
-  a.download="InviteCraft-"+currentEvent+".png";
+  a.download="InviteCraft-"+eventType+".png";
   a.href=canvas.toDataURL("image/png");
   a.click();
- }).catch(()=>alert("Download failed. Please try again."));
-}
-loadSharedInvitation();
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InviteCraft - Invitation Maker</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#100f19;color:#fff}
-header{text-align:center;padding:24px 12px;background:linear-gradient(135deg,#47245f,#a94d78)}
-header h1{margin:0;font-size:30px}
-header p{margin:8px 0 0;color:#f6e7ff}
-main{max-width:1000px;margin:25px auto;padding:0 15px}
-h2{text-align:center}
-.muted{text-align:center;color:#c4bbd2}
-.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
-.event{min-height:130px;border:1px solid #55445f;background:#201a2c;color:white;border-radius:16px;padding:20px 10px;font-size:19px;font-weight:bold;cursor:pointer;transition:.2s}
-.event:hover{transform:translateY(-3px);background:#392446;border-color:#f0a9dc}
-.emoji{display:block;font-size:40px;margin-bottom:12px}
-.panel{background:#1d1a29;border:1px solid #393148;border-radius:16px;padding:18px;margin:16px 0}
-.editor{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-label{display:block;font-size:13px;color:#ddd0e8;margin:13px 0 6px}
-input,textarea{width:100%;padding:11px;border:1px solid #51445d;background:#11101a;color:white;border-radius:8px;font:inherit}
-textarea{resize:vertical;min-height:70px}
-button{border:0;border-radius:9px;padding:12px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#efb4e2;color:#28132b}
-.secondary{background:#393047;color:#fff}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-#card{min-height:430px;padding:14px;background:linear-gradient(145deg,#401c4f,#a34777);border:5px double #f8dfad;display:flex;align-items:stretch;text-align:center;color:#fff8e9;overflow-wrap:anywhere}
-.frame{width:100%;border:1px solid #f8dfad99;padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#ornament{font-size:27px}
-#pEvent{font-size:13px;letter-spacing:4px;text-transform:uppercase}
-#pNames{font: bold 32px Georgia,serif;margin:17px 0;line-height:1.25}
-#pMessage{font:17px Georgia,serif;white-space:pre-line;line-height:1.6}
-#pDate,#pTime,#pVenue,#pExtra{font-size:14px;white-space:pre-line;line-height:1.7}
-#pPhoto{max-width:100%;max-height:100px;object-fit:contain;margin:10px}
-.haldi{background:linear-gradient(145deg,#70400e,#e4a92e)!important}
-.marriage{background:linear-gradient(145deg,#650f27,#b52d46)!important}
-.engagement{background:linear-gradient(145deg,#1e4244,#8baf9b)!important}
-.birthday{background:linear-gradient(145deg,#401c4f,#a34777)!important}
-.hidden{display:none!important}
-.small{font-size:12px;color:#c4bbd2;line-height:1.6}
-#shareUrl{margin-top:12px;overflow-wrap:anywhere;color:#f4c5f0;font-size:13px}
-footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
-@media(max-width:700px){.editor{grid-template-columns:1fr}.events{gap:10px}.event{font-size:16px;min-height:115px}#card{min-height:390px}#pNames{font-size:28px}}
-</style>
-</head>
-<body>
-<header>
-<h1>✨ InviteCraft</h1>
-<p>Create beautiful invitations and share them instantly</p>
-</header>
-<main>
-<section id="home">
-<h2>Choose Your Invitation</h2>
-<p class="muted">Select an event to start designing your card.</p>
-<div class="events">
-<button class="event" onclick="chooseEvent('birthday')"><span class="emoji">🎂</span>BIRTHDAY</button>
-<button class="event" onclick="chooseEvent('haldi')"><span class="emoji">🌼</span>HALDI</button>
-<button class="event" onclick="chooseEvent('marriage')"><span class="emoji">💍</span>MARRIAGE</button>
-<button class="event" onclick="chooseEvent('engagement')"><span class="emoji">💖</span>ENGAGEMENT</button>
-</div>
-</section>
-
-<section id="editorSection" class="hidden">
-<div class="actions">
-<button class="secondary" onclick="goHome()">← Change Event</button>
-</div>
-<h2>Edit Your Invitation</h2>
-<p class="muted">Change your details and watch your card update.</p>
-<div class="editor">
-<section class="panel">
-<h3>✏️ Your Details</h3>
-<label id="nameLabel">Names</label>
-<input id="names" placeholder="Enter name or names">
-<label>Event date</label>
-<input id="date" type="date">
-<label>Time</label>
-<input id="time" type="time">
-<label>Venue</label>
-<input id="venue" placeholder="Enter venue or address">
-<label>Invitation message</label>
-<textarea id="message">We warmly invite you to join us for this special occasion.</textarea>
-<label>Additional details</label>
-<textarea id="extra" placeholder="Optional details"></textarea>
-<div class="actions">
-<button class="primary" onclick="downloadCard()">⬇ Download Invitation</button>
-<button class="secondary" onclick="shareInvitation()">🔗 Share Invitation</button>
-</div>
-<div id="shareUrl"></div>
-<p class="small">Sharing creates a link containing your invitation details. Anyone with the link can open it in a browser.</p>
-</section>
-
-<section class="panel">
-<h3>👀 Live Preview</h3>
-<div id="card" class="birthday">
-<div class="frame">
-<div id="ornament">✦ ❀ ✦</div>
-<div id="pEvent">Birthday Celebration</div>
-<div id="pNames">Your Name Here</div>
-<img id="pPhoto" class="hidden" alt="Invitation photo">
-<div id="pMessage">We warmly invite you to join us for this special occasion.</div>
-<p id="pDate"></p>
-<p id="pTime"></p>
-<p id="pVenue"></p>
-<p id="pExtra"></p>
-<div id="ornament">❦</div>
-</div>
-</div>
-</section>
-</div>
-</section>
-</main>
-<footer>InviteCraft • Make every occasion special</footer>
-
-<script>
-const eventInfo={
- birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's 18th Birthday",ornament:"🎂 ✦ 🎈"},
- haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"🌼 ✦ 🌼"},
- marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"❦ 💍 ❦"},
- engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"💖 ✦ 💍"}
-};
-let currentEvent="birthday";
-const $=id=>document.getElementById(id);
-
-function chooseEvent(type){
- currentEvent=eventInfo[type]?type:"birthday";
- $("home").classList.add("hidden");
- $("editorSection").classList.remove("hidden");
- $("names").placeholder=eventInfo[currentEvent].placeholder;
- $("nameLabel").textContent=eventInfo[currentEvent].label;
- $("card").className=currentEvent;
- $("shareUrl").textContent="";
- updateCard();
- window.scrollTo(0,0);
-}
-function goHome(){
- $("editorSection").classList.add("hidden");
- $("home").classList.remove("hidden");
- window.scrollTo(0,0);
-}
-function updateCard(){
- const info=eventInfo[currentEvent];
- $("card").className=currentEvent;
- $("pEvent").textContent=info.title;
- $("ornament").textContent=info.ornament;
- $("pNames").textContent=$("names").value.trim()||"Your Name Here";
- $("pMessage").textContent=$("message").value;
- $("pDate").textContent=$("date").value? "📅 "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
- $("pTime").textContent=$("time").value?"🕒 "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
- $("pVenue").textContent=$("venue").value.trim()?"📍 "+$("venue").value.trim():"";
- $("pExtra").textContent=$("extra").value.trim();
-}
-["names","date","time","venue","message","extra"].forEach(id=>$(id).addEventListener("input",updateCard));
-
-function getInvitation(){
- return {
- event:currentEvent,
- names:$("names").value,
- date:$("date").value,
- time:$("time").value,
- venue:$("venue").value,
- message:$("message").value,
- extra:$("extra").value
- };
-}
-function applyInvitation(data){
- if(!eventInfo[data.event])return;
- chooseEvent(data.event);
- ["names","date","time","venue","message","extra"].forEach(id=>{
-  if(typeof data[id]==="string")$(id).value=data[id];
+ }).catch(()=>alert("Could not download the card. Please try again.")).finally(()=>{
+  button.disabled=false;
+  button.textContent="↓ Download PNG";
  });
- updateCard();
 }
-function shareInvitation(){
- updateCard();
- const data=getInvitation();
- const url=new URL(window.location.href);
- url.search="";
- url.hash="invite="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
- const link=url.href;
- $("shareUrl").textContent=link;
- if(navigator.share){
-  navigator.share({title:"My Invitation",text:"You're invited! Open this invitation:",url:link}).catch(()=>{});
- }else if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(link).then(()=>alert("Invitation link copied! Share it with anyone.")).catch(()=>prompt("Copy your invitation link:",link));
- }else{
-  prompt("Copy your invitation link:",link);
- }
-}
-function loadSharedInvitation(){
- const hash=window.location.hash;
- if(!hash.startsWith("#invite="))return;
- try{
-  const data=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hash.slice(8))))));
-  if(eventInfo[data.event])applyInvitation(data);
- }catch(e){
-  alert("This invitation link is invalid.");
- }
-}
-function downloadCard(){
- updateCard();
- if(!window.html2canvas){
-  const s=document.createElement("script");
-  s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-  s.onload=downloadCard;
-  s.onerror=()=>alert("Unable to load the image tool. Please check your internet connection.");
-  document.head.appendChild(s);
-  return;
- }
- html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true}).then(canvas=>{
-  const a=document.createElement("a");
-  a.download="InviteCraft-"+currentEvent+".png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
- }).catch(()=>alert("Download failed. Please try again."));
-}
-loadSharedInvitation();
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InviteCraft - Invitation Maker</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#100f19;color:#fff}
-header{text-align:center;padding:24px 12px;background:linear-gradient(135deg,#47245f,#a94d78)}
-header h1{margin:0;font-size:30px}
-header p{margin:8px 0 0;color:#f6e7ff}
-main{max-width:1000px;margin:25px auto;padding:0 15px}
-h2{text-align:center}
-.muted{text-align:center;color:#c4bbd2}
-.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
-.event{min-height:130px;border:1px solid #55445f;background:#201a2c;color:white;border-radius:16px;padding:20px 10px;font-size:19px;font-weight:bold;cursor:pointer;transition:.2s}
-.event:hover{transform:translateY(-3px);background:#392446;border-color:#f0a9dc}
-.emoji{display:block;font-size:40px;margin-bottom:12px}
-.panel{background:#1d1a29;border:1px solid #393148;border-radius:16px;padding:18px;margin:16px 0}
-.editor{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-label{display:block;font-size:13px;color:#ddd0e8;margin:13px 0 6px}
-input,textarea{width:100%;padding:11px;border:1px solid #51445d;background:#11101a;color:white;border-radius:8px;font:inherit}
-textarea{resize:vertical;min-height:70px}
-button{border:0;border-radius:9px;padding:12px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#efb4e2;color:#28132b}
-.secondary{background:#393047;color:#fff}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-#card{min-height:430px;padding:14px;background:linear-gradient(145deg,#401c4f,#a34777);border:5px double #f8dfad;display:flex;align-items:stretch;text-align:center;color:#fff8e9;overflow-wrap:anywhere}
-.frame{width:100%;border:1px solid #f8dfad99;padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#ornament{font-size:27px}
-#pEvent{font-size:13px;letter-spacing:4px;text-transform:uppercase}
-#pNames{font: bold 32px Georgia,serif;margin:17px 0;line-height:1.25}
-#pMessage{font:17px Georgia,serif;white-space:pre-line;line-height:1.6}
-#pDate,#pTime,#pVenue,#pExtra{font-size:14px;white-space:pre-line;line-height:1.7}
-#pPhoto{max-width:100%;max-height:100px;object-fit:contain;margin:10px}
-.haldi{background:linear-gradient(145deg,#70400e,#e4a92e)!important}
-.marriage{background:linear-gradient(145deg,#650f27,#b52d46)!important}
-.engagement{background:linear-gradient(145deg,#1e4244,#8baf9b)!important}
-.birthday{background:linear-gradient(145deg,#401c4f,#a34777)!important}
-.hidden{display:none!important}
-.small{font-size:12px;color:#c4bbd2;line-height:1.6}
-#shareUrl{margin-top:12px;overflow-wrap:anywhere;color:#f4c5f0;font-size:13px}
-footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
-@media(max-width:700px){.editor{grid-template-columns:1fr}.events{gap:10px}.event{font-size:16px;min-height:115px}#card{min-height:390px}#pNames{font-size:28px}}
-</style>
-</head>
-<body>
-<header>
-<h1>✨ InviteCraft</h1>
-<p>Create beautiful invitations and share them instantly</p>
-</header>
-<main>
-<section id="home">
-<h2>Choose Your Invitation</h2>
-<p class="muted">Select an event to start designing your card.</p>
-<div class="events">
-<button class="event" onclick="chooseEvent('birthday')"><span class="emoji">🎂</span>BIRTHDAY</button>
-<button class="event" onclick="chooseEvent('haldi')"><span class="emoji">🌼</span>HALDI</button>
-<button class="event" onclick="chooseEvent('marriage')"><span class="emoji">💍</span>MARRIAGE</button>
-<button class="event" onclick="chooseEvent('engagement')"><span class="emoji">💖</span>ENGAGEMENT</button>
-</div>
-</section>
-
-<section id="editorSection" class="hidden">
-<div class="actions">
-<button class="secondary" onclick="goHome()">← Change Event</button>
-</div>
-<h2>Edit Your Invitation</h2>
-<p class="muted">Change your details and watch your card update.</p>
-<div class="editor">
-<section class="panel">
-<h3>✏️ Your Details</h3>
-<label id="nameLabel">Names</label>
-<input id="names" placeholder="Enter name or names">
-<label>Event date</label>
-<input id="date" type="date">
-<label>Time</label>
-<input id="time" type="time">
-<label>Venue</label>
-<input id="venue" placeholder="Enter venue or address">
-<label>Invitation message</label>
-<textarea id="message">We warmly invite you to join us for this special occasion.</textarea>
-<label>Additional details</label>
-<textarea id="extra" placeholder="Optional details"></textarea>
-<div class="actions">
-<button class="primary" onclick="downloadCard()">⬇ Download Invitation</button>
-<button class="secondary" onclick="shareInvitation()">🔗 Share Invitation</button>
-</div>
-<div id="shareUrl"></div>
-<p class="small">Sharing creates a link containing your invitation details. Anyone with the link can open it in a browser.</p>
-</section>
-
-<section class="panel">
-<h3>👀 Live Preview</h3>
-<div id="card" class="birthday">
-<div class="frame">
-<div id="ornament">✦ ❀ ✦</div>
-<div id="pEvent">Birthday Celebration</div>
-<div id="pNames">Your Name Here</div>
-<img id="pPhoto" class="hidden" alt="Invitation photo">
-<div id="pMessage">We warmly invite you to join us for this special occasion.</div>
-<p id="pDate"></p>
-<p id="pTime"></p>
-<p id="pVenue"></p>
-<p id="pExtra"></p>
-<div id="ornament">❦</div>
-</div>
-</div>
-</section>
-</div>
-</section>
-</main>
-<footer>InviteCraft • Make every occasion special</footer>
-
-<script>
-const eventInfo={
- birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's 18th Birthday",ornament:"🎂 ✦ 🎈"},
- haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"🌼 ✦ 🌼"},
- marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"❦ 💍 ❦"},
- engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"💖 ✦ 💍"}
-};
-let currentEvent="birthday";
-const $=id=>document.getElementById(id);
-
-function chooseEvent(type){
- currentEvent=eventInfo[type]?type:"birthday";
- $("home").classList.add("hidden");
- $("editorSection").classList.remove("hidden");
- $("names").placeholder=eventInfo[currentEvent].placeholder;
- $("nameLabel").textContent=eventInfo[currentEvent].label;
- $("card").className=currentEvent;
- $("shareUrl").textContent="";
- updateCard();
- window.scrollTo(0,0);
-}
-function goHome(){
- $("editorSection").classList.add("hidden");
- $("home").classList.remove("hidden");
- window.scrollTo(0,0);
-}
-function updateCard(){
- const info=eventInfo[currentEvent];
- $("card").className=currentEvent;
- $("pEvent").textContent=info.title;
- $("ornament").textContent=info.ornament;
- $("pNames").textContent=$("names").value.trim()||"Your Name Here";
- $("pMessage").textContent=$("message").value;
- $("pDate").textContent=$("date").value? "📅 "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
- $("pTime").textContent=$("time").value?"🕒 "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
- $("pVenue").textContent=$("venue").value.trim()?"📍 "+$("venue").value.trim():"";
- $("pExtra").textContent=$("extra").value.trim();
-}
-["names","date","time","venue","message","extra"].forEach(id=>$(id).addEventListener("input",updateCard));
-
-function getInvitation(){
- return {
- event:currentEvent,
- names:$("names").value,
- date:$("date").value,
- time:$("time").value,
- venue:$("venue").value,
- message:$("message").value,
- extra:$("extra").value
- };
-}
-function applyInvitation(data){
- if(!eventInfo[data.event])return;
- chooseEvent(data.event);
- ["names","date","time","venue","message","extra"].forEach(id=>{
-  if(typeof data[id]==="string")$(id).value=data[id];
- });
- updateCard();
-}
-function shareInvitation(){
- updateCard();
- const data=getInvitation();
- const url=new URL(window.location.href);
- url.search="";
- url.hash="invite="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
- const link=url.href;
- $("shareUrl").textContent=link;
- if(navigator.share){
-  navigator.share({title:"My Invitation",text:"You're invited! Open this invitation:",url:link}).catch(()=>{});
- }else if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(link).then(()=>alert("Invitation link copied! Share it with anyone.")).catch(()=>prompt("Copy your invitation link:",link));
- }else{
-  prompt("Copy your invitation link:",link);
- }
-}
-function loadSharedInvitation(){
- const hash=window.location.hash;
- if(!hash.startsWith("#invite="))return;
- try{
-  const data=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hash.slice(8))))));
-  if(eventInfo[data.event])applyInvitation(data);
- }catch(e){
-  alert("This invitation link is invalid.");
- }
-}
-function downloadCard(){
- updateCard();
- if(!window.html2canvas){
-  const s=document.createElement("script");
-  s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-  s.onload=downloadCard;
-  s.onerror=()=>alert("Unable to load the image tool. Please check your internet connection.");
-  document.head.appendChild(s);
-  return;
- }
- html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true}).then(canvas=>{
-  const a=document.createElement("a");
-  a.download="InviteCraft-"+currentEvent+".png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
- }).catch(()=>alert("Download failed. Please try again."));
-}
-loadSharedInvitation();
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InviteCraft - Invitation Maker</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#100f19;color:#fff}
-header{text-align:center;padding:24px 12px;background:linear-gradient(135deg,#47245f,#a94d78)}
-header h1{margin:0;font-size:30px}
-header p{margin:8px 0 0;color:#f6e7ff}
-main{max-width:1000px;margin:25px auto;padding:0 15px}
-h2{text-align:center}
-.muted{text-align:center;color:#c4bbd2}
-.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
-.event{min-height:130px;border:1px solid #55445f;background:#201a2c;color:white;border-radius:16px;padding:20px 10px;font-size:19px;font-weight:bold;cursor:pointer;transition:.2s}
-.event:hover{transform:translateY(-3px);background:#392446;border-color:#f0a9dc}
-.emoji{display:block;font-size:40px;margin-bottom:12px}
-.panel{background:#1d1a29;border:1px solid #393148;border-radius:16px;padding:18px;margin:16px 0}
-.editor{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-label{display:block;font-size:13px;color:#ddd0e8;margin:13px 0 6px}
-input,textarea{width:100%;padding:11px;border:1px solid #51445d;background:#11101a;color:white;border-radius:8px;font:inherit}
-textarea{resize:vertical;min-height:70px}
-button{border:0;border-radius:9px;padding:12px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#efb4e2;color:#28132b}
-.secondary{background:#393047;color:#fff}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-#card{min-height:430px;padding:14px;background:linear-gradient(145deg,#401c4f,#a34777);border:5px double #f8dfad;display:flex;align-items:stretch;text-align:center;color:#fff8e9;overflow-wrap:anywhere}
-.frame{width:100%;border:1px solid #f8dfad99;padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#ornament{font-size:27px}
-#pEvent{font-size:13px;letter-spacing:4px;text-transform:uppercase}
-#pNames{font: bold 32px Georgia,serif;margin:17px 0;line-height:1.25}
-#pMessage{font:17px Georgia,serif;white-space:pre-line;line-height:1.6}
-#pDate,#pTime,#pVenue,#pExtra{font-size:14px;white-space:pre-line;line-height:1.7}
-#pPhoto{max-width:100%;max-height:100px;object-fit:contain;margin:10px}
-.haldi{background:linear-gradient(145deg,#70400e,#e4a92e)!important}
-.marriage{background:linear-gradient(145deg,#650f27,#b52d46)!important}
-.engagement{background:linear-gradient(145deg,#1e4244,#8baf9b)!important}
-.birthday{background:linear-gradient(145deg,#401c4f,#a34777)!important}
-.hidden{display:none!important}
-.small{font-size:12px;color:#c4bbd2;line-height:1.6}
-#shareUrl{margin-top:12px;overflow-wrap:anywhere;color:#f4c5f0;font-size:13px}
-footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
-@media(max-width:700px){.editor{grid-template-columns:1fr}.events{gap:10px}.event{font-size:16px;min-height:115px}#card{min-height:390px}#pNames{font-size:28px}}
-</style>
-</head>
-<body>
-<header>
-<h1>✨ InviteCraft</h1>
-<p>Create beautiful invitations and share them instantly</p>
-</header>
-<main>
-<section id="home">
-<h2>Choose Your Invitation</h2>
-<p class="muted">Select an event to start designing your card.</p>
-<div class="events">
-<button class="event" onclick="chooseEvent('birthday')"><span class="emoji">🎂</span>BIRTHDAY</button>
-<button class="event" onclick="chooseEvent('haldi')"><span class="emoji">🌼</span>HALDI</button>
-<button class="event" onclick="chooseEvent('marriage')"><span class="emoji">💍</span>MARRIAGE</button>
-<button class="event" onclick="chooseEvent('engagement')"><span class="emoji">💖</span>ENGAGEMENT</button>
-</div>
-</section>
-
-<section id="editorSection" class="hidden">
-<div class="actions">
-<button class="secondary" onclick="goHome()">← Change Event</button>
-</div>
-<h2>Edit Your Invitation</h2>
-<p class="muted">Change your details and watch your card update.</p>
-<div class="editor">
-<section class="panel">
-<h3>✏️ Your Details</h3>
-<label id="nameLabel">Names</label>
-<input id="names" placeholder="Enter name or names">
-<label>Event date</label>
-<input id="date" type="date">
-<label>Time</label>
-<input id="time" type="time">
-<label>Venue</label>
-<input id="venue" placeholder="Enter venue or address">
-<label>Invitation message</label>
-<textarea id="message">We warmly invite you to join us for this special occasion.</textarea>
-<label>Additional details</label>
-<textarea id="extra" placeholder="Optional details"></textarea>
-<div class="actions">
-<button class="primary" onclick="downloadCard()">⬇ Download Invitation</button>
-<button class="secondary" onclick="shareInvitation()">🔗 Share Invitation</button>
-</div>
-<div id="shareUrl"></div>
-<p class="small">Sharing creates a link containing your invitation details. Anyone with the link can open it in a browser.</p>
-</section>
-
-<section class="panel">
-<h3>👀 Live Preview</h3>
-<div id="card" class="birthday">
-<div class="frame">
-<div id="ornament">✦ ❀ ✦</div>
-<div id="pEvent">Birthday Celebration</div>
-<div id="pNames">Your Name Here</div>
-<img id="pPhoto" class="hidden" alt="Invitation photo">
-<div id="pMessage">We warmly invite you to join us for this special occasion.</div>
-<p id="pDate"></p>
-<p id="pTime"></p>
-<p id="pVenue"></p>
-<p id="pExtra"></p>
-<div id="ornament">❦</div>
-</div>
-</div>
-</section>
-</div>
-</section>
-</main>
-<footer>InviteCraft • Make every occasion special</footer>
-
-<script>
-const eventInfo={
- birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's 18th Birthday",ornament:"🎂 ✦ 🎈"},
- haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"🌼 ✦ 🌼"},
- marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"❦ 💍 ❦"},
- engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"💖 ✦ 💍"}
-};
-let currentEvent="birthday";
-const $=id=>document.getElementById(id);
-
-function chooseEvent(type){
- currentEvent=eventInfo[type]?type:"birthday";
- $("home").classList.add("hidden");
- $("editorSection").classList.remove("hidden");
- $("names").placeholder=eventInfo[currentEvent].placeholder;
- $("nameLabel").textContent=eventInfo[currentEvent].label;
- $("card").className=currentEvent;
- $("shareUrl").textContent="";
- updateCard();
- window.scrollTo(0,0);
-}
-function goHome(){
- $("editorSection").classList.add("hidden");
- $("home").classList.remove("hidden");
- window.scrollTo(0,0);
-}
-function updateCard(){
- const info=eventInfo[currentEvent];
- $("card").className=currentEvent;
- $("pEvent").textContent=info.title;
- $("ornament").textContent=info.ornament;
- $("pNames").textContent=$("names").value.trim()||"Your Name Here";
- $("pMessage").textContent=$("message").value;
- $("pDate").textContent=$("date").value? "📅 "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
- $("pTime").textContent=$("time").value?"🕒 "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
- $("pVenue").textContent=$("venue").value.trim()?"📍 "+$("venue").value.trim():"";
- $("pExtra").textContent=$("extra").value.trim();
-}
-["names","date","time","venue","message","extra"].forEach(id=>$(id).addEventListener("input",updateCard));
-
-function getInvitation(){
- return {
- event:currentEvent,
- names:$("names").value,
- date:$("date").value,
- time:$("time").value,
- venue:$("venue").value,
- message:$("message").value,
- extra:$("extra").value
- };
-}
-function applyInvitation(data){
- if(!eventInfo[data.event])return;
- chooseEvent(data.event);
- ["names","date","time","venue","message","extra"].forEach(id=>{
-  if(typeof data[id]==="string")$(id).value=data[id];
- });
- updateCard();
-}
-function shareInvitation(){
- updateCard();
- const data=getInvitation();
- const url=new URL(window.location.href);
- url.search="";
- url.hash="invite="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
- const link=url.href;
- $("shareUrl").textContent=link;
- if(navigator.share){
-  navigator.share({title:"My Invitation",text:"You're invited! Open this invitation:",url:link}).catch(()=>{});
- }else if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(link).then(()=>alert("Invitation link copied! Share it with anyone.")).catch(()=>prompt("Copy your invitation link:",link));
- }else{
-  prompt("Copy your invitation link:",link);
- }
-}
-function loadSharedInvitation(){
- const hash=window.location.hash;
- if(!hash.startsWith("#invite="))return;
- try{
-  const data=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hash.slice(8))))));
-  if(eventInfo[data.event])applyInvitation(data);
- }catch(e){
-  alert("This invitation link is invalid.");
- }
-}
-function downloadCard(){
- updateCard();
- if(!window.html2canvas){
-  const s=document.createElement("script");
-  s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-  s.onload=downloadCard;
-  s.onerror=()=>alert("Unable to load the image tool. Please check your internet connection.");
-  document.head.appendChild(s);
-  return;
- }
- html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true}).then(canvas=>{
-  const a=document.createElement("a");
-  a.download="InviteCraft-"+currentEvent+".png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
- }).catch(()=>alert("Download failed. Please try again."));
-}
-loadSharedInvitation();
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InviteCraft - Invitation Maker</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#100f19;color:#fff}
-header{text-align:center;padding:24px 12px;background:linear-gradient(135deg,#47245f,#a94d78)}
-header h1{margin:0;font-size:30px}
-header p{margin:8px 0 0;color:#f6e7ff}
-main{max-width:1000px;margin:25px auto;padding:0 15px}
-h2{text-align:center}
-.muted{text-align:center;color:#c4bbd2}
-.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
-.event{min-height:130px;border:1px solid #55445f;background:#201a2c;color:white;border-radius:16px;padding:20px 10px;font-size:19px;font-weight:bold;cursor:pointer;transition:.2s}
-.event:hover{transform:translateY(-3px);background:#392446;border-color:#f0a9dc}
-.emoji{display:block;font-size:40px;margin-bottom:12px}
-.panel{background:#1d1a29;border:1px solid #393148;border-radius:16px;padding:18px;margin:16px 0}
-.editor{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-label{display:block;font-size:13px;color:#ddd0e8;margin:13px 0 6px}
-input,textarea{width:100%;padding:11px;border:1px solid #51445d;background:#11101a;color:white;border-radius:8px;font:inherit}
-textarea{resize:vertical;min-height:70px}
-button{border:0;border-radius:9px;padding:12px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#efb4e2;color:#28132b}
-.secondary{background:#393047;color:#fff}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-#card{min-height:430px;padding:14px;background:linear-gradient(145deg,#401c4f,#a34777);border:5px double #f8dfad;display:flex;align-items:stretch;text-align:center;color:#fff8e9;overflow-wrap:anywhere}
-.frame{width:100%;border:1px solid #f8dfad99;padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#ornament{font-size:27px}
-#pEvent{font-size:13px;letter-spacing:4px;text-transform:uppercase}
-#pNames{font: bold 32px Georgia,serif;margin:17px 0;line-height:1.25}
-#pMessage{font:17px Georgia,serif;white-space:pre-line;line-height:1.6}
-#pDate,#pTime,#pVenue,#pExtra{font-size:14px;white-space:pre-line;line-height:1.7}
-#pPhoto{max-width:100%;max-height:100px;object-fit:contain;margin:10px}
-.haldi{background:linear-gradient(145deg,#70400e,#e4a92e)!important}
-.marriage{background:linear-gradient(145deg,#650f27,#b52d46)!important}
-.engagement{background:linear-gradient(145deg,#1e4244,#8baf9b)!important}
-.birthday{background:linear-gradient(145deg,#401c4f,#a34777)!important}
-.hidden{display:none!important}
-.small{font-size:12px;color:#c4bbd2;line-height:1.6}
-#shareUrl{margin-top:12px;overflow-wrap:anywhere;color:#f4c5f0;font-size:13px}
-footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
-@media(max-width:700px){.editor{grid-template-columns:1fr}.events{gap:10px}.event{font-size:16px;min-height:115px}#card{min-height:390px}#pNames{font-size:28px}}
-</style>
-</head>
-<body>
-<header>
-<h1>✨ InviteCraft</h1>
-<p>Create beautiful invitations and share them instantly</p>
-</header>
-<main>
-<section id="home">
-<h2>Choose Your Invitation</h2>
-<p class="muted">Select an event to start designing your card.</p>
-<div class="events">
-<button class="event" onclick="chooseEvent('birthday')"><span class="emoji">🎂</span>BIRTHDAY</button>
-<button class="event" onclick="chooseEvent('haldi')"><span class="emoji">🌼</span>HALDI</button>
-<button class="event" onclick="chooseEvent('marriage')"><span class="emoji">💍</span>MARRIAGE</button>
-<button class="event" onclick="chooseEvent('engagement')"><span class="emoji">💖</span>ENGAGEMENT</button>
-</div>
-</section>
-
-<section id="editorSection" class="hidden">
-<div class="actions">
-<button class="secondary" onclick="goHome()">← Change Event</button>
-</div>
-<h2>Edit Your Invitation</h2>
-<p class="muted">Change your details and watch your card update.</p>
-<div class="editor">
-<section class="panel">
-<h3>✏️ Your Details</h3>
-<label id="nameLabel">Names</label>
-<input id="names" placeholder="Enter name or names">
-<label>Event date</label>
-<input id="date" type="date">
-<label>Time</label>
-<input id="time" type="time">
-<label>Venue</label>
-<input id="venue" placeholder="Enter venue or address">
-<label>Invitation message</label>
-<textarea id="message">We warmly invite you to join us for this special occasion.</textarea>
-<label>Additional details</label>
-<textarea id="extra" placeholder="Optional details"></textarea>
-<div class="actions">
-<button class="primary" onclick="downloadCard()">⬇ Download Invitation</button>
-<button class="secondary" onclick="shareInvitation()">🔗 Share Invitation</button>
-</div>
-<div id="shareUrl"></div>
-<p class="small">Sharing creates a link containing your invitation details. Anyone with the link can open it in a browser.</p>
-</section>
-
-<section class="panel">
-<h3>👀 Live Preview</h3>
-<div id="card" class="birthday">
-<div class="frame">
-<div id="ornament">✦ ❀ ✦</div>
-<div id="pEvent">Birthday Celebration</div>
-<div id="pNames">Your Name Here</div>
-<img id="pPhoto" class="hidden" alt="Invitation photo">
-<div id="pMessage">We warmly invite you to join us for this special occasion.</div>
-<p id="pDate"></p>
-<p id="pTime"></p>
-<p id="pVenue"></p>
-<p id="pExtra"></p>
-<div id="ornament">❦</div>
-</div>
-</div>
-</section>
-</div>
-</section>
-</main>
-<footer>InviteCraft • Make every occasion special</footer>
-
-<script>
-const eventInfo={
- birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's 18th Birthday",ornament:"🎂 ✦ 🎈"},
- haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"🌼 ✦ 🌼"},
- marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"❦ 💍 ❦"},
- engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"💖 ✦ 💍"}
-};
-let currentEvent="birthday";
-const $=id=>document.getElementById(id);
-
-function chooseEvent(type){
- currentEvent=eventInfo[type]?type:"birthday";
- $("home").classList.add("hidden");
- $("editorSection").classList.remove("hidden");
- $("names").placeholder=eventInfo[currentEvent].placeholder;
- $("nameLabel").textContent=eventInfo[currentEvent].label;
- $("card").className=currentEvent;
- $("shareUrl").textContent="";
- updateCard();
- window.scrollTo(0,0);
-}
-function goHome(){
- $("editorSection").classList.add("hidden");
- $("home").classList.remove("hidden");
- window.scrollTo(0,0);
-}
-function updateCard(){
- const info=eventInfo[currentEvent];
- $("card").className=currentEvent;
- $("pEvent").textContent=info.title;
- $("ornament").textContent=info.ornament;
- $("pNames").textContent=$("names").value.trim()||"Your Name Here";
- $("pMessage").textContent=$("message").value;
- $("pDate").textContent=$("date").value? "📅 "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
- $("pTime").textContent=$("time").value?"🕒 "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
- $("pVenue").textContent=$("venue").value.trim()?"📍 "+$("venue").value.trim():"";
- $("pExtra").textContent=$("extra").value.trim();
-}
-["names","date","time","venue","message","extra"].forEach(id=>$(id).addEventListener("input",updateCard));
-
-function getInvitation(){
- return {
- event:currentEvent,
- names:$("names").value,
- date:$("date").value,
- time:$("time").value,
- venue:$("venue").value,
- message:$("message").value,
- extra:$("extra").value
- };
-}
-function applyInvitation(data){
- if(!eventInfo[data.event])return;
- chooseEvent(data.event);
- ["names","date","time","venue","message","extra"].forEach(id=>{
-  if(typeof data[id]==="string")$(id).value=data[id];
- });
- updateCard();
-}
-function shareInvitation(){
- updateCard();
- const data=getInvitation();
- const url=new URL(window.location.href);
- url.search="";
- url.hash="invite="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
- const link=url.href;
- $("shareUrl").textContent=link;
- if(navigator.share){
-  navigator.share({title:"My Invitation",text:"You're invited! Open this invitation:",url:link}).catch(()=>{});
- }else if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(link).then(()=>alert("Invitation link copied! Share it with anyone.")).catch(()=>prompt("Copy your invitation link:",link));
- }else{
-  prompt("Copy your invitation link:",link);
- }
-}
-function loadSharedInvitation(){
- const hash=window.location.hash;
- if(!hash.startsWith("#invite="))return;
- try{
-  const data=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hash.slice(8))))));
-  if(eventInfo[data.event])applyInvitation(data);
- }catch(e){
-  alert("This invitation link is invalid.");
- }
-}
-function downloadCard(){
- updateCard();
- if(!window.html2canvas){
-  const s=document.createElement("script");
-  s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-  s.onload=downloadCard;
-  s.onerror=()=>alert("Unable to load the image tool. Please check your internet connection.");
-  document.head.appendChild(s);
-  return;
- }
- html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true}).then(canvas=>{
-  const a=document.createElement("a");
-  a.download="InviteCraft-"+currentEvent+".png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
- }).catch(()=>alert("Download failed. Please try again."));
-}
-loadSharedInvitation();
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InviteCraft - Invitation Maker</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#100f19;color:#fff}
-header{text-align:center;padding:24px 12px;background:linear-gradient(135deg,#47245f,#a94d78)}
-header h1{margin:0;font-size:30px}
-header p{margin:8px 0 0;color:#f6e7ff}
-main{max-width:1000px;margin:25px auto;padding:0 15px}
-h2{text-align:center}
-.muted{text-align:center;color:#c4bbd2}
-.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
-.event{min-height:130px;border:1px solid #55445f;background:#201a2c;color:white;border-radius:16px;padding:20px 10px;font-size:19px;font-weight:bold;cursor:pointer;transition:.2s}
-.event:hover{transform:translateY(-3px);background:#392446;border-color:#f0a9dc}
-.emoji{display:block;font-size:40px;margin-bottom:12px}
-.panel{background:#1d1a29;border:1px solid #393148;border-radius:16px;padding:18px;margin:16px 0}
-.editor{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-label{display:block;font-size:13px;color:#ddd0e8;margin:13px 0 6px}
-input,textarea{width:100%;padding:11px;border:1px solid #51445d;background:#11101a;color:white;border-radius:8px;font:inherit}
-textarea{resize:vertical;min-height:70px}
-button{border:0;border-radius:9px;padding:12px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#efb4e2;color:#28132b}
-.secondary{background:#393047;color:#fff}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-#card{min-height:430px;padding:14px;background:linear-gradient(145deg,#401c4f,#a34777);border:5px double #f8dfad;display:flex;align-items:stretch;text-align:center;color:#fff8e9;overflow-wrap:anywhere}
-.frame{width:100%;border:1px solid #f8dfad99;padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#ornament{font-size:27px}
-#pEvent{font-size:13px;letter-spacing:4px;text-transform:uppercase}
-#pNames{font: bold 32px Georgia,serif;margin:17px 0;line-height:1.25}
-#pMessage{font:17px Georgia,serif;white-space:pre-line;line-height:1.6}
-#pDate,#pTime,#pVenue,#pExtra{font-size:14px;white-space:pre-line;line-height:1.7}
-#pPhoto{max-width:100%;max-height:100px;object-fit:contain;margin:10px}
-.haldi{background:linear-gradient(145deg,#70400e,#e4a92e)!important}
-.marriage{background:linear-gradient(145deg,#650f27,#b52d46)!important}
-.engagement{background:linear-gradient(145deg,#1e4244,#8baf9b)!important}
-.birthday{background:linear-gradient(145deg,#401c4f,#a34777)!important}
-.hidden{display:none!important}
-.small{font-size:12px;color:#c4bbd2;line-height:1.6}
-#shareUrl{margin-top:12px;overflow-wrap:anywhere;color:#f4c5f0;font-size:13px}
-footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
-@media(max-width:700px){.editor{grid-template-columns:1fr}.events{gap:10px}.event{font-size:16px;min-height:115px}#card{min-height:390px}#pNames{font-size:28px}}
-</style>
-</head>
-<body>
-<header>
-<h1>✨ InviteCraft</h1>
-<p>Create beautiful invitations and share them instantly</p>
-</header>
-<main>
-<section id="home">
-<h2>Choose Your Invitation</h2>
-<p class="muted">Select an event to start designing your card.</p>
-<div class="events">
-<button class="event" onclick="chooseEvent('birthday')"><span class="emoji">🎂</span>BIRTHDAY</button>
-<button class="event" onclick="chooseEvent('haldi')"><span class="emoji">🌼</span>HALDI</button>
-<button class="event" onclick="chooseEvent('marriage')"><span class="emoji">💍</span>MARRIAGE</button>
-<button class="event" onclick="chooseEvent('engagement')"><span class="emoji">💖</span>ENGAGEMENT</button>
-</div>
-</section>
-
-<section id="editorSection" class="hidden">
-<div class="actions">
-<button class="secondary" onclick="goHome()">← Change Event</button>
-</div>
-<h2>Edit Your Invitation</h2>
-<p class="muted">Change your details and watch your card update.</p>
-<div class="editor">
-<section class="panel">
-<h3>✏️ Your Details</h3>
-<label id="nameLabel">Names</label>
-<input id="names" placeholder="Enter name or names">
-<label>Event date</label>
-<input id="date" type="date">
-<label>Time</label>
-<input id="time" type="time">
-<label>Venue</label>
-<input id="venue" placeholder="Enter venue or address">
-<label>Invitation message</label>
-<textarea id="message">We warmly invite you to join us for this special occasion.</textarea>
-<label>Additional details</label>
-<textarea id="extra" placeholder="Optional details"></textarea>
-<div class="actions">
-<button class="primary" onclick="downloadCard()">⬇ Download Invitation</button>
-<button class="secondary" onclick="shareInvitation()">🔗 Share Invitation</button>
-</div>
-<div id="shareUrl"></div>
-<p class="small">Sharing creates a link containing your invitation details. Anyone with the link can open it in a browser.</p>
-</section>
-
-<section class="panel">
-<h3>👀 Live Preview</h3>
-<div id="card" class="birthday">
-<div class="frame">
-<div id="ornament">✦ ❀ ✦</div>
-<div id="pEvent">Birthday Celebration</div>
-<div id="pNames">Your Name Here</div>
-<img id="pPhoto" class="hidden" alt="Invitation photo">
-<div id="pMessage">We warmly invite you to join us for this special occasion.</div>
-<p id="pDate"></p>
-<p id="pTime"></p>
-<p id="pVenue"></p>
-<p id="pExtra"></p>
-<div id="ornament">❦</div>
-</div>
-</div>
-</section>
-</div>
-</section>
-</main>
-<footer>InviteCraft • Make every occasion special</footer>
-
-<script>
-const eventInfo={
- birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's 18th Birthday",ornament:"🎂 ✦ 🎈"},
- haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"🌼 ✦ 🌼"},
- marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"❦ 💍 ❦"},
- engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"💖 ✦ 💍"}
-};
-let currentEvent="birthday";
-const $=id=>document.getElementById(id);
-
-function chooseEvent(type){
- currentEvent=eventInfo[type]?type:"birthday";
- $("home").classList.add("hidden");
- $("editorSection").classList.remove("hidden");
- $("names").placeholder=eventInfo[currentEvent].placeholder;
- $("nameLabel").textContent=eventInfo[currentEvent].label;
- $("card").className=currentEvent;
- $("shareUrl").textContent="";
- updateCard();
- window.scrollTo(0,0);
-}
-function goHome(){
- $("editorSection").classList.add("hidden");
- $("home").classList.remove("hidden");
- window.scrollTo(0,0);
-}
-function updateCard(){
- const info=eventInfo[currentEvent];
- $("card").className=currentEvent;
- $("pEvent").textContent=info.title;
- $("ornament").textContent=info.ornament;
- $("pNames").textContent=$("names").value.trim()||"Your Name Here";
- $("pMessage").textContent=$("message").value;
- $("pDate").textContent=$("date").value? "📅 "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
- $("pTime").textContent=$("time").value?"🕒 "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
- $("pVenue").textContent=$("venue").value.trim()?"📍 "+$("venue").value.trim():"";
- $("pExtra").textContent=$("extra").value.trim();
-}
-["names","date","time","venue","message","extra"].forEach(id=>$(id).addEventListener("input",updateCard));
-
-function getInvitation(){
- return {
- event:currentEvent,
- names:$("names").value,
- date:$("date").value,
- time:$("time").value,
- venue:$("venue").value,
- message:$("message").value,
- extra:$("extra").value
- };
-}
-function applyInvitation(data){
- if(!eventInfo[data.event])return;
- chooseEvent(data.event);
- ["names","date","time","venue","message","extra"].forEach(id=>{
-  if(typeof data[id]==="string")$(id).value=data[id];
- });
- updateCard();
-}
-function shareInvitation(){
- updateCard();
- const data=getInvitation();
- const url=new URL(window.location.href);
- url.search="";
- url.hash="invite="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
- const link=url.href;
- $("shareUrl").textContent=link;
- if(navigator.share){
-  navigator.share({title:"My Invitation",text:"You're invited! Open this invitation:",url:link}).catch(()=>{});
- }else if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(link).then(()=>alert("Invitation link copied! Share it with anyone.")).catch(()=>prompt("Copy your invitation link:",link));
- }else{
-  prompt("Copy your invitation link:",link);
- }
-}
-function loadSharedInvitation(){
- const hash=window.location.hash;
- if(!hash.startsWith("#invite="))return;
- try{
-  const data=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hash.slice(8))))));
-  if(eventInfo[data.event])applyInvitation(data);
- }catch(e){
-  alert("This invitation link is invalid.");
- }
-}
-function downloadCard(){
- updateCard();
- if(!window.html2canvas){
-  const s=document.createElement("script");
-  s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-  s.onload=downloadCard;
-  s.onerror=()=>alert("Unable to load the image tool. Please check your internet connection.");
-  document.head.appendChild(s);
-  return;
- }
- html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true}).then(canvas=>{
-  const a=document.createElement("a");
-  a.download="InviteCraft-"+currentEvent+".png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
- }).catch(()=>alert("Download failed. Please try again."));
-}
-loadSharedInvitation();
-</script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>InviteCraft - Invitation Maker</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#100f19;color:#fff}
-header{text-align:center;padding:24px 12px;background:linear-gradient(135deg,#47245f,#a94d78)}
-header h1{margin:0;font-size:30px}
-header p{margin:8px 0 0;color:#f6e7ff}
-main{max-width:1000px;margin:25px auto;padding:0 15px}
-h2{text-align:center}
-.muted{text-align:center;color:#c4bbd2}
-.events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
-.event{min-height:130px;border:1px solid #55445f;background:#201a2c;color:white;border-radius:16px;padding:20px 10px;font-size:19px;font-weight:bold;cursor:pointer;transition:.2s}
-.event:hover{transform:translateY(-3px);background:#392446;border-color:#f0a9dc}
-.emoji{display:block;font-size:40px;margin-bottom:12px}
-.panel{background:#1d1a29;border:1px solid #393148;border-radius:16px;padding:18px;margin:16px 0}
-.editor{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-label{display:block;font-size:13px;color:#ddd0e8;margin:13px 0 6px}
-input,textarea{width:100%;padding:11px;border:1px solid #51445d;background:#11101a;color:white;border-radius:8px;font:inherit}
-textarea{resize:vertical;min-height:70px}
-button{border:0;border-radius:9px;padding:12px 15px;font-weight:bold;cursor:pointer}
-.primary{background:#efb4e2;color:#28132b}
-.secondary{background:#393047;color:#fff}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-#card{min-height:430px;padding:14px;background:linear-gradient(145deg,#401c4f,#a34777);border:5px double #f8dfad;display:flex;align-items:stretch;text-align:center;color:#fff8e9;overflow-wrap:anywhere}
-.frame{width:100%;border:1px solid #f8dfad99;padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#ornament{font-size:27px}
-#pEvent{font-size:13px;letter-spacing:4px;text-transform:uppercase}
-#pNames{font: bold 32px Georgia,serif;margin:17px 0;line-height:1.25}
-#pMessage{font:17px Georgia,serif;white-space:pre-line;line-height:1.6}
-#pDate,#pTime,#pVenue,#pExtra{font-size:14px;white-space:pre-line;line-height:1.7}
-#pPhoto{max-width:100%;max-height:100px;object-fit:contain;margin:10px}
-.haldi{background:linear-gradient(145deg,#70400e,#e4a92e)!important}
-.marriage{background:linear-gradient(145deg,#650f27,#b52d46)!important}
-.engagement{background:linear-gradient(145deg,#1e4244,#8baf9b)!important}
-.birthday{background:linear-gradient(145deg,#401c4f,#a34777)!important}
-.hidden{display:none!important}
-.small{font-size:12px;color:#c4bbd2;line-height:1.6}
-#shareUrl{margin-top:12px;overflow-wrap:anywhere;color:#f4c5f0;font-size:13px}
-footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
-@media(max-width:700px){.editor{grid-template-columns:1fr}.events{gap:10px}.event{font-size:16px;min-height:115px}#card{min-height:390px}#pNames{font-size:28px}}
-</style>
-</head>
-<body>
-<header>
-<h1>✨ InviteCraft</h1>
-<p>Create beautiful invitations and share them instantly</p>
-</header>
-<main>
-<section id="home">
-<h2>Choose Your Invitation</h2>
-<p class="muted">Select an event to start designing your card.</p>
-<div class="events">
-<button class="event" onclick="chooseEvent('birthday')"><span class="emoji">🎂</span>BIRTHDAY</button>
-<button class="event" onclick="chooseEvent('haldi')"><span class="emoji">🌼</span>HALDI</button>
-<button class="event" onclick="chooseEvent('marriage')"><span class="emoji">💍</span>MARRIAGE</button>
-<button class="event" onclick="chooseEvent('engagement')"><span class="emoji">💖</span>ENGAGEMENT</button>
-</div>
-</section>
-
-<section id="editorSection" class="hidden">
-<div class="actions">
-<button class="secondary" onclick="goHome()">← Change Event</button>
-</div>
-<h2>Edit Your Invitation</h2>
-<p class="muted">Change your details and watch your card update.</p>
-<div class="editor">
-<section class="panel">
-<h3>✏️ Your Details</h3>
-<label id="nameLabel">Names</label>
-<input id="names" placeholder="Enter name or names">
-<label>Event date</label>
-<input id="date" type="date">
-<label>Time</label>
-<input id="time" type="time">
-<label>Venue</label>
-<input id="venue" placeholder="Enter venue or address">
-<label>Invitation message</label>
-<textarea id="message">We warmly invite you to join us for this special occasion.</textarea>
-<label>Additional details</label>
-<textarea id="extra" placeholder="Optional details"></textarea>
-<div class="actions">
-<button class="primary" onclick="downloadCard()">⬇ Download Invitation</button>
-<button class="secondary" onclick="shareInvitation()">🔗 Share Invitation</button>
-</div>
-<div id="shareUrl"></div>
-<p class="small">Sharing creates a link containing your invitation details. Anyone with the link can open it in a browser.</p>
-</section>
-
-<section class="panel">
-<h3>👀 Live Preview</h3>
-<div id="card" class="birthday">
-<div class="frame">
-<div id="ornament">✦ ❀ ✦</div>
-<div id="pEvent">Birthday Celebration</div>
-<div id="pNames">Your Name Here</div>
-<img id="pPhoto" class="hidden" alt="Invitation photo">
-<div id="pMessage">We warmly invite you to join us for this special occasion.</div>
-<p id="pDate"></p>
-<p id="pTime"></p>
-<p id="pVenue"></p>
-<p id="pExtra"></p>
-<div id="ornament">❦</div>
-</div>
-</div>
-</section>
-</div>
-</section>
-</main>
-<footer>InviteCraft • Make every occasion special</footer>
-
-<script>
-const eventInfo={
- birthday:{title:"Birthday Celebration",label:"Birthday person's name",placeholder:"e.g. Rahul's 18th Birthday",ornament:"🎂 ✦ 🎈"},
- haldi:{title:"Haldi Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"🌼 ✦ 🌼"},
- marriage:{title:"Wedding Invitation",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"❦ 💍 ❦"},
- engagement:{title:"Engagement Ceremony",label:"Names of the couple",placeholder:"e.g. Rahul & Priya",ornament:"💖 ✦ 💍"}
-};
-let currentEvent="birthday";
-const $=id=>document.getElementById(id);
-
-function chooseEvent(type){
- currentEvent=eventInfo[type]?type:"birthday";
- $("home").classList.add("hidden");
- $("editorSection").classList.remove("hidden");
- $("names").placeholder=eventInfo[currentEvent].placeholder;
- $("nameLabel").textContent=eventInfo[currentEvent].label;
- $("card").className=currentEvent;
- $("shareUrl").textContent="";
- updateCard();
- window.scrollTo(0,0);
-}
-function goHome(){
- $("editorSection").classList.add("hidden");
- $("home").classList.remove("hidden");
- window.scrollTo(0,0);
-}
-function updateCard(){
- const info=eventInfo[currentEvent];
- $("card").className=currentEvent;
- $("pEvent").textContent=info.title;
- $("ornament").textContent=info.ornament;
- $("pNames").textContent=$("names").value.trim()||"Your Name Here";
- $("pMessage").textContent=$("message").value;
- $("pDate").textContent=$("date").value? "📅 "+new Date($("date").value+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
- $("pTime").textContent=$("time").value?"🕒 "+new Date("2000-01-01T"+$("time").value).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
- $("pVenue").textContent=$("venue").value.trim()?"📍 "+$("venue").value.trim():"";
- $("pExtra").textContent=$("extra").value.trim();
-}
-["names","date","time","venue","message","extra"].forEach(id=>$(id).addEventListener("input",updateCard));
-
-function getInvitation(){
- return {
- event:currentEvent,
- names:$("names").value,
- date:$("date").value,
- time:$("time").value,
- venue:$("venue").value,
- message:$("message").value,
- extra:$("extra").value
- };
-}
-function applyInvitation(data){
- if(!eventInfo[data.event])return;
- chooseEvent(data.event);
- ["names","date","time","venue","message","extra"].forEach(id=>{
-  if(typeof data[id]==="string")$(id).value=data[id];
- });
- updateCard();
-}
-function shareInvitation(){
- updateCard();
- const data=getInvitation();
- const url=new URL(window.location.href);
- url.search="";
- url.hash="invite="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
- const link=url.href;
- $("shareUrl").textContent=link;
- if(navigator.share){
-  navigator.share({title:"My Invitation",text:"You're invited! Open this invitation:",url:link}).catch(()=>{});
- }else if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(link).then(()=>alert("Invitation link copied! Share it with anyone.")).catch(()=>prompt("Copy your invitation link:",link));
- }else{
-  prompt("Copy your invitation link:",link);
- }
-}
-function loadSharedInvitation(){
- const hash=window.location.hash;
- if(!hash.startsWith("#invite="))return;
- try{
-  const data=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hash.slice(8))))));
-  if(eventInfo[data.event])applyInvitation(data);
- }catch(e){
-  alert("This invitation link is invalid.");
- }
-}
-function downloadCard(){
- updateCard();
- if(!window.html2canvas){
-  const s=document.createElement("script");
-  s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-  s.onload=downloadCard;
-  s.onerror=()=>alert("Unable to load the image tool. Please check your internet connection.");
-  document.head.appendChild(s);
-  return;
- }
- html2canvas($("card"),{scale:3,backgroundColor:null,useCORS:true}).then(canvas=>{
-  const a=document.createElement("a");
-  a.download="InviteCraft-"+currentEvent+".png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
- }).catch(()=>alert("Download failed. Please try again."));
-}
-loadSharedInvitation();
+loadInvitation();
+updateCard();
 </script>
 </body>
 </html>
