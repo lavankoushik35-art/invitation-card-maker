@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InviteCraft | Invitation Card Maker</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#10111b;color:#f8f7ff}
+header{text-align:center;padding:28px 15px;background:linear-gradient(135deg,#251746,#612d77,#a64c73)}
+header h1{margin:0;font-size:30px}
+header p{color:#f0dffb;margin-bottom:0}
+main{max-width:1100px;margin:25px auto;padding:0 15px}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{background:#1c1d2b;border:1px solid #35354b;border-radius:18px;padding:20px}
+h2{font-size:19px;margin-top:0}
+label{display:block;font-size:13px;color:#d5cce7;margin:14px 0 6px}
+input,select,textarea{width:100%;padding:12px;border-radius:9px;border:1px solid #45445d;background:#11121c;color:white;font:inherit}
+textarea{resize:vertical;min-height:75px}
+button{border:0;padding:12px 15px;border-radius:10px;font-weight:bold;cursor:pointer}
+.primary{background:#e5a6ff;color:#24132e}
+.secondary{background:#34344b;color:white}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.preview{display:flex;align-items:center;justify-content:center;min-height:420px;background:#11121b;border-radius:13px;padding:12px}
+#card{width:100%;max-width:420px;min-height:420px;padding:18px;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(145deg,#25113c,#723c77,#bd718c);border:5px double #f9dfaa;color:#fff8e9;overflow-wrap:anywhere}
+#card.gold{background:linear-gradient(145deg,#172a29,#28645a);border-color:#f2d28c;color:#fff3d0}
+#card.rose{background:linear-gradient(145deg,#601d3b,#b44767,#e7a1a9);border-color:#ffe1dc}
+#card.blue{background:linear-gradient(145deg,#101c42,#245a87,#5c8fb3);border-color:#d6edff}
+#card.light{background:linear-gradient(145deg,#fff7e7,#f6dfc7);border-color:#a17b46;color:#473124}
+.inner{width:100%;border:1px solid #ffffff70;padding:24px 15px}
+#card h3{font-size:13px;letter-spacing:4px;text-transform:uppercase}
+#card h2{font-family:Georgia,serif;font-size:34px;margin:20px 0;line-height:1.15}
+#card .detail{font-size:15px;line-height:1.8;white-space:pre-line}
+#card .ornament{font-size:26px}
+#card img{display:block;max-width:100%;max-height:110px;margin:12px auto;object-fit:contain}
+footer{text-align:center;color:#aaa4bd;padding:25px;font-size:12px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.preview{min-height:380px}#card{min-height:390px}header h1{font-size:25px}}
+</style>
+</head>
+<body>
+<header>
+<h1>✨ InviteCraft</h1>
+<p>Create beautiful invitation cards in minutes</p>
+</header>
+<main>
+<div class="layout">
+<section class="panel">
+<h2>🎨 Design your invitation</h2>
+<label>Event type</label>
+<select id="event">
+<option>Birthday Party</option>
+<option>Wedding Invitation</option>
+<option>Engagement Ceremony</option>
+<option>Kabaddi Tournament</option>
+<option>Sports Tournament</option>
+<option>School Function</option>
+<option>Housewarming</option>
+<option>Custom Event</option>
+</select>
+<label>Template colour</label>
+<select id="theme">
+<option value="">Royal Purple</option>
+<option value="gold">Emerald & Gold</option>
+<option value="rose">Rose Celebration</option>
+<option value="blue">Ocean Blue</option>
+<option value="light">Classic Cream</option>
+</select>
+<label>Heading / Person / Team name</label>
+<input id="name" placeholder="e.g. Rahul's Birthday" value="Your Special Celebration">
+<label>Date</label>
+<input id="date" type="date">
+<label>Time</label>
+<input id="time" type="time">
+<label>Venue / Location</label>
+<input id="venue" placeholder="Enter event location">
+<label>Extra details</label>
+<textarea id="details" placeholder="Entry fee, prize, age group, dress code..."></textarea>
+<label>Personal message</label>
+<textarea id="message" placeholder="We warmly invite you to join us!">You are warmly invited to celebrate with us.</textarea>
+<label>Upload a photo or logo (optional)</label>
+<input id="photo" type="file" accept="image/*">
+<div class="actions">
+<button class="primary" onclick="updateCard()">Update card</button>
+<button class="secondary" onclick="resetCard()">Reset</button>
+</div>
+</section>
+<section class="panel">
+<h2>👀 Live preview</h2>
+<div class="preview">
+<div id="card">
+<div class="inner">
+<div class="ornament">✦ ✧ ✦</div>
+<h3 id="pEvent">Birthday Party</h3>
+<h2 id="pName">Your Special Celebration</h2>
+<div class="detail" id="pDate"></div>
+<img id="pPhoto" hidden alt="Uploaded event image">
+<div class="detail" id="pVenue"></div>
+<div class="detail" id="pDetails"></div>
+<p id="pMessage">You are warmly invited to celebrate with us.</p>
+<div class="ornament">❦</div>
+</div>
+</div>
+</div>
+<div class="actions">
+<button class="primary" onclick="downloadCard()">⬇ Download PNG</button>
+<button class="secondary" onclick="shareWhatsApp()">WhatsApp Share</button>
+</div>
+<p style="font-size:12px;color:#bdb6d1;line-height:1.6">Tip: Check the preview before downloading. Your design is generated in your browser.</p>
+</section>
+</div>
+</main>
+<footer>InviteCraft • Made for your special moments ❤️</footer>
+<script>
+const ids=["event","theme","name","date","time","venue","details","message"];
+ids.forEach(id=>document.getElementById(id).addEventListener("input",updateCard));
+document.getElementById("photo").addEventListener("change",function(){
+ const file=this.files[0];
+ const img=document.getElementById("pPhoto");
+ if(file){
+  const reader=new FileReader();
+  reader.onload=()=>{img.src=reader.result;img.hidden=false};
+  reader.readAsDataURL(file);
+ }else{img.hidden=true}
+});
+function updateCard(){
+ const val=id=>document.getElementById(id).value.trim();
+ document.getElementById("card").className=val("theme");
+ document.getElementById("pEvent").textContent=val("event");
+ document.getElementById("pName").textContent=val("name")||"You're Invited!";
+ const date=val("date")?new Date(val("date")+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"long",year:"numeric"}):"";
+ const time=val("time")?new Date("2000-01-01T"+val("time")).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
+ document.getElementById("pDate").textContent=[date,time].filter(Boolean).join(" • ");
+ document.getElementById("pVenue").textContent=val("venue")?"📍 "+val("venue"):"";
+ document.getElementById("pDetails").textContent=val("details");
+ document.getElementById("pMessage").textContent=val("message");
+}
+function resetCard(){
+ ids.forEach(id=>{if(id==="event"||id==="theme")document.getElementById(id).selectedIndex=0;else document.getElementById(id).value=""});
+ document.getElementById("name").value="Your Special Celebration";
+ document.getElementById("message").value="You are warmly invited to celebrate with us.";
+ document.getElementById("photo").value="";
+ document.getElementById("pPhoto").hidden=true;
+ updateCard();
+}
+function downloadCard(){
+ if(!window.html2canvas){
+  const s=document.createElement("script");
+  s.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+  s.onload=downloadCard;
+  s.onerror=()=>alert("PNG library could not load. Check your internet connection and try again.");
+  document.head.appendChild(s);
+  return;
+ }
+ html2canvas(document.getElementById("card"),{scale:2,useCORS:true,backgroundColor:null}).then(canvas=>{
+  const a=document.createElement("a");
+  a.download="my-invitation.png";
+  a.href=canvas.toDataURL("image/png");
+  a.click();
+ }).catch(()=>alert("Could not create the image. Please try another photo."));
+}
+function shareWhatsApp(){
+ const val=id=>document.getElementById(id).value.trim();
+ const date=val("date")?new Date(val("date")+"T12:00:00").toLocaleDateString():"";
+ const text=`${val("event")}\n${val("name")}\n${date} ${val("time")}\nVenue: ${val("venue")}\n${val("details")}\n${val("message")}`;
+ window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
+}
+updateCard();
+</script>
+</body>
+</html>
